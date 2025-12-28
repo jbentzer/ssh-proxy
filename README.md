@@ -4,12 +4,26 @@ Reach SSH hosts behind a proxy using SNI.
 
 The script simplifies the connectivity to SSH hosts behind a proxy.
 
+## Architecture
 
-## Prerequisites
+                    ┌───────────────────────────┐
+                    │          Client           │
+                    │     (On WAN or LAN)       │
+                    └─────────────┬─────────────┘
+                                  │
+                    ┌─────────────▼─────────────┐
+                    │       Proxy Server        │
+                    │      (e.g. HAProxy)       │
+                    └─────────────┬─────────────┘
+                                  │
+          ┌───────────────────────┼───────────────────────┐
+          │                       │                       │
+┌─────────▼─────────┐   ┌─────────▼─────────┐   ┌─────────▼─────────┐
+│    SSH Target 1   │   │    SSH Target 2   │   │    SSH Target 3   │
+│(SSH Host Machine) │   │(SSH Host Machine) │   │(SSH Host Machine) │
+└───────────────────┘   └───────────────────┘   └───────────────────┘
 
-A properly configured proxy server.
-
-### HAProxy Configuration Example
+## HAProxy Configuration Example
 
 Detalis explained here: https://www.haproxy.com/blog/route-ssh-connections-with-haproxy.
 
@@ -72,4 +86,3 @@ backend bknd_ssh_all
 ##### HAPROXY SSH - END #####
 ...
 ```
-
