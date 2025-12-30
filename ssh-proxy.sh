@@ -5,7 +5,7 @@
 #
 #
 # Usage:
-#   ssh-proxy someproxy.somedomain.com somehost.somedomain.com [optional_port]
+#   ssh-proxy someproxy.somedomain.com somehost.somedomain.com [optional_port] [optional_sclient_options]
 #
 
 if [ -z "$1" ]; then
@@ -22,7 +22,12 @@ if [ "$3" ]; then
     port=$3
 fi
 
-proxy_cmd="openssl s_client -quiet -connect $1 -servername $2 -port $port"
+sclient_options=""
+if [ "$4" ]; then
+    sclient_options=$4
+fi
+
+proxy_cmd="openssl s_client -quiet -connect $1 -servername $2 -port $port $sclient_options"
 echo "Executing: ssh -o ProxyCommand=\"$proxy_cmd\" $2"
 ssh -o ProxyCommand="$proxy_cmd" "$2"
 

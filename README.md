@@ -4,6 +4,14 @@ Reach SSH hosts behind a proxy using SNI.
 
 The script simplifies the connectivity to SSH hosts behind a proxy.
 
+## Usage
+
+```bash
+ssh-proxy.sh someproxy.somedomain.com somehost.somedomain.com [optional_port]  [optional_sclient_options]
+```
+
+The port defaults to 22. The parameter optional_sclient_options can be used to transfer one or many optional parameters to the sclient command. A full list of options is described here: https://docs.openssl.org/master/man1/openssl-s_client/#synopsis
+
 ## Architecture
 
                     ┌───────────────────────────┐
@@ -25,9 +33,12 @@ The script simplifies the connectivity to SSH hosts behind a proxy.
 
 ## HAProxy Configuration Example
 
-Detalis explained here: https://www.haproxy.com/blog/route-ssh-connections-with-haproxy.
+Details explained here: https://www.haproxy.com/blog/route-ssh-connections-with-haproxy.
 
-The following snippets from a haproxy.cfg file will route SSH traffic to hosts:
+The following snippets from a haproxy.cfg file will route SSH traffic to target hosts based on host name. There are also security guards enabled:
+
+- Allowed IP range
+- Allowed target host names
 
 ```
 ...
